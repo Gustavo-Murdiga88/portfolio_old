@@ -8,10 +8,14 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        "page-main": "url('/main.png')",
       },
+      fontSize: {
+        "title": "10.625rem"
+      },
+      width: {
+        "134": "33.5rem"
+      }
     },
   },
   plugins: [],
