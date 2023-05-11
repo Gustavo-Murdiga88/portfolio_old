@@ -4,8 +4,8 @@ import { Link } from "@/components/link";
 export default function About() {
   return (
     <div className="scroll not-scoller h-screen overflow-auto bg-page-about bg-cover bg-scroll bg-left-top bg-no-repeat">
-      <section className="px-4 pb-14 lg:px-[96px]">
-        <Header />
+      <Header />
+      <section className="px-4 pb-24 lg:px-[96px]">
         <span className="mb-4 mt-2 block text-center text-2xl font-bold md:mb-8 md:text-3xl lg:text-5xl">
           Um pouco sobre mim
         </span>
