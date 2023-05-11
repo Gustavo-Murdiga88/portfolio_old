@@ -13,36 +13,38 @@ import next from "../../../public/next.png";
 
 export default function Skills() {
   return (
-    <div className="aspect-video h-screen w-full overflow-hidden bg-page-skills bg-cover bg-left-top bg-no-repeat">
+    <div className="not-scoller h-screen w-full overflow-auto bg-page-skills bg-cover bg-left-top bg-no-repeat">
       <Header />
-      <div className="ml-auto mr-20 w-custom px-8">
-        <section className="ml-auto mr-24 mt-16 flex w-custom gap-32 px-8">
-          <aside className="flex-shrink pt-6">
-            <h2 className="mb-10 text-lg font-semibold">
-              {" "}
+      <div className="mb-24 w-full max-w-[95rem] sm:mx-auto">
+        <section className="flex flex-col gap-10 px-8 md:mt-10 md:gap-24 2xl:flex-row">
+          <aside className="md:pt-6">
+            <h2 className="mb-5 mt-5 text-lg font-semibold md:mb-10">
               Essas são as minhas habilidades como
             </h2>
-            <h1 className="text-title font-extrabold leading-none">
+            <h1 className="text-[2.5rem] font-extrabold leading-none lg:text-[5rem] xl:text-title">
               DESENVOLVEDOR
               <span className="block">FULL STACK</span>
             </h1>
-            <p className="mt-8 w-180 text-lg font-bold leading-7 tracking-normal">
+            <p className="mt-5 w-full text-sm font-bold tracking-normal lg:mt-8 lg:w-180 lg:text-lg lg:leading-7">
               Além destas, tenho visado durante minha jornada a especialização
               em tecnologias que englobam todo o ecossistema Node.JS, tanto no
               front-end como também no back-end, e também em DevOps, almejando
-              alcançar o STAGE FULL CYCLE.
+              alcançar o{" "}
+              <strong className="font-extrabold">STAGE FULL CYCLE.</strong>
             </p>
           </aside>
-          <div className="flex flex-grow-0 basis-96 flex-row flex-wrap justify-end gap-x-10 gap-y-5">
+          <div className="mb-8 flex flex-1 flex-row flex-wrap items-center justify-center gap-6">
             <Link
+              className="w-[140px] object-cover md:w-auto"
               target="_blank"
               prefetch
               title="Next"
               href="https://nextjs.org/"
             >
-              <Img src={next} width={170} height={176} alt="next" />
+              <Img src={next} width={176} height={176} alt="next" />
             </Link>
             <Link
+              className="w-[140px] object-cover md:w-auto"
               target="_blank"
               prefetch
               title="Fastify"
@@ -50,21 +52,23 @@ export default function Skills() {
             >
               <Img
                 src={fastify}
-                width={170}
-                height={179}
+                width={176}
+                height={176}
                 quality={100}
                 alt="fastify"
               />
             </Link>
             <Link
+              className="w-[140px] object-cover md:w-auto"
               target="_blank"
               prefetch
               title="NodeJS"
               href="https://nodejs.org/en"
             >
-              <Img src={node} width={170} height={150} alt="node" />
+              <Img src={node} width={176} height={176} alt="node" />
             </Link>
             <Link
+              className="w-[140px] object-cover md:w-auto"
               target="_blank"
               prefetch
               title="Docker"
@@ -72,43 +76,47 @@ export default function Skills() {
             >
               <Img
                 src={docker}
-                width={170}
-                height={179}
+                width={176}
+                height={176}
                 quality={100}
                 alt="docker"
               />
             </Link>
             <Link
+              className="w-[140px] object-cover md:w-auto"
               target="_blank"
               prefetch
               title="ReactJS"
               href="https://react.dev"
             >
-              <Img src={react} width={170} height={150} alt="react" />
+              <Img src={react} width={176} height={176} alt="react" />
             </Link>
             <Link
+              className="w-[140px] object-cover md:w-auto"
               target="_blank"
               prefetch
               title="TypeScript"
               href="https://www.typescriptlang.org"
             >
-              <Img src={TS} width={170} height={150} alt="TS" />
+              <Img src={TS} width={176} height={176} alt="TS" />
             </Link>
             <Link
+              className="w-[140px] object-cover md:w-auto"
               target="_blank"
               prefetch
               title="Vite JS"
               href="https://vitejs.dev/"
             >
-              <Img src={vite} width={170} height={150} alt="vite" />
+              <Img src={vite} width={176} height={176} alt="vite" />
             </Link>
             <Link
+              className="w-[140px] object-cover md:w-auto"
               target="_blank"
               title="Radix UI"
               href="https://www.radix-ui.com/"
               prefetch
             >
-              <Img src={remix} width={170} height={150} alt="remix" />
+              <Img src={remix} width={176} height={176} alt="remix" />
             </Link>
           </div>
         </section>
