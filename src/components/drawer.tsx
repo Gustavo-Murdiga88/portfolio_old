@@ -47,7 +47,7 @@ export function DrawerComponent({ children }: DrawerProps) {
           onClick={() => {
             handleClose();
           }}
-          className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm"
+          className="fixed inset-0 bg-[rgba(0,0,0,0.5)] backdrop-blur-sm"
         />
         <Drawer.Content className="fixed bottom-0 top-0 w-3/4">
           <div

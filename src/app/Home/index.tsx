@@ -6,7 +6,7 @@ function Home() {
   return (
     <div className="h-screen w-full overflow-auto bg-page-main bg-cover bg-left-top">
       <Header />
-      <div className="mx-8 mb-24 mt-6 flex animate-greeting flex-col items-center gap-10 lg:mx-auto lg:flex-row lg:gap-24 lg:px-8 xl:mt-40 xl:w-custom">
+      <div className="mx-8 mb-24 mt-6 flex animate-greeting flex-col items-center justify-center gap-10 md:mt-40 lg:flex-row lg:gap-24 lg:px-8">
         <aside className="flex flex-col gap-4">
           <span className="flex gap-2 text-3xl font-bold tracking-tight">
             Olá,
@@ -17,7 +17,7 @@ function Home() {
               👋
             </span>
           </span>
-          <h1 className="flex-1 text-3xl font-bold leading-none tracking-tight lg:mt-8 lg:text-[3.75rem] xl:mt-14 xl:text-title">
+          <h1 className="flex-1 text-3xl font-bold leading-none tracking-tight lg:mt-8 lg:text-[3.75rem] xl:mt-14 xl:text-[3.75rem] 2xl:text-title">
             Eu sou o Gustavo
           </h1>
           <div>
@@ -36,7 +36,8 @@ function Home() {
 
         <div
           className="
-            relative flex
+            relative
+            flex
             items-center justify-center rounded-full
             bg-sky-950  before:absolute 
             before:bottom-0 before:left-0 
