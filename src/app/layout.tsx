@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${roboto.className}`}
+        className={`${roboto.className} bg-zinc-800`}
         style={{
           overflow: "hidden",
         }}

@@ -91,9 +91,11 @@ module.exports = {
           },
         },
       },
+
       transformOrigin: {
         "bottom-center": "bottom 4px",
       },
+
       animation: {
         hello: "3s cubic-bezier(0,.85,.37,.99) infinite forwards hello",
         greeting: "1s greeting backwards",
@@ -101,9 +103,11 @@ module.exports = {
         "good-by-drawer": "600ms good-by-drawer forwards",
         "greeting-drawer": "600ms greeting-drawer backwards",
       },
+
       rotate: {
         custom: "30deg",
       },
+
       aspectRatio: {
         custom: "9 / 16",
       },

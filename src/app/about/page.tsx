@@ -1,11 +1,100 @@
+"use client";
+
 import { Header } from "@/components/header";
 import { Link } from "@/components/link";
+import { useEffect, useRef } from "react";
+
+interface HandleScrollProps {
+  card: number;
+  scrollTop: number;
+}
 
 export default function About() {
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  function setClassCards(id: string) {
+    const card = document.getElementById(id);
+    card?.classList.remove("invisible");
+    card?.classList.add("animate-greeting-vertical");
+  }
+
+  function handleScroll({ card, scrollTop }: HandleScrollProps) {
+    if (scrollTop > 150 && card === 2) {
+      setClassCards("card-2");
+    }
+
+    if (scrollTop > 685 && card === 3) {
+      setClassCards("card-3");
+    }
+
+    if (scrollTop > 1296 && card === 4) {
+      setClassCards("card-4");
+    }
+
+    if (scrollTop > 1820 && card === 5) {
+      setClassCards("card-5");
+    }
+
+    if (scrollTop > 2500 && card === 6) {
+      setClassCards("card-6");
+    }
+  }
+
+  function handleGetCards() {
+    const cards = document.querySelectorAll(".card");
+
+    const AreCardInvisible = Array.from({
+      length: cards.length,
+    }).map((_, index) => {
+      if (cards[index].classList.contains("invisible")) {
+        return true;
+      }
+      return false;
+    });
+
+    const hasExecutedNextLine = AreCardInvisible.some((card) => card);
+
+    const card = AreCardInvisible.findIndex((item, index) => item && index) + 1;
+
+    return {
+      card,
+      hasExecutedNextLine,
+    };
+  }
+
+  function onScroll(e: Event) {
+    const scrollTop = (e.target as any).scrollTop as number;
+    const { hasExecutedNextLine, card } = handleGetCards();
+
+    if (hasExecutedNextLine) {
+      handleScroll({ scrollTop, card });
+    }
+  }
+
+  useEffect(() => {
+    const { matches } = window.matchMedia("(max-width:639px)");
+
+    if (matches) {
+      document.querySelector("#main")!.addEventListener("scroll", onScroll);
+
+      return () => {
+        document
+          .querySelector("#main")!
+          .removeEventListener("scroll", onScroll);
+      };
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <div className="scroll not-scoller h-screen overflow-auto bg-page-about bg-cover bg-scroll bg-left-top bg-no-repeat">
+    <div
+      ref={ref}
+      id="main"
+      className="scroll not-scoller h-screen overflow-auto bg-page-about bg-cover bg-scroll bg-left-top bg-no-repeat"
+    >
       <Header />
-      <section className="px-4 pb-24 lg:px-[96px]">
+      <section className="mx-auto max-w-max-page px-4 pb-24 lg:px-[96px]">
         <span className="mb-4 mt-2 block text-center text-2xl font-bold md:mb-8 md:text-3xl lg:text-5xl">
           Um pouco sobre mim
         </span>
@@ -22,7 +111,10 @@ export default function About() {
             2xl:grid-cols-3
         "
         >
-          <section className="lg:min-h-auto h-auto animate-[1s_greeting-vertical_backwards] rounded-lg bg-black bg-opacity-60 p-6 text-white md:animate-[1s_greeting_backwards] lg:min-h-[459px] 2xl:max-w-[34.25rem]">
+          <section
+            id="card-1"
+            className="card lg:min-h-auto h-auto animate-[1s_greeting-vertical_backwards] rounded-lg bg-black bg-opacity-60 p-6 text-white md:animate-[1s_greeting_backwards] lg:min-h-[459px] 2xl:max-w-[34.25rem]"
+          >
             <p className="text-left text-[1.125rem] font-medium leading-6">
               Olá, meu nome é Gustavo, e aos meus 24 anos sou um grande
               entusiasta da tecnologia e de tudo o que ela pode oferecer em
@@ -42,7 +134,11 @@ export default function About() {
               afinal, quem não escolheria, não é mesmo? Hahaha.
             </p>
           </section>
-          <section className="h-auto animate-[1s_greeting-vertical_500ms_backwards] rounded-lg bg-black bg-opacity-60 p-6 text-white md:animate-[1s_greeting_500ms_backwards] lg:min-h-[459px] 2xl:max-w-[34.25rem]">
+          <section
+            id="card-2"
+            className="card invisible h-auto 
+            rounded-lg bg-black bg-opacity-60 p-6 text-white sm:visible md:animate-[1s_greeting_500ms_backwards] lg:min-h-[459px] 2xl:max-w-[34.25rem]"
+          >
             <p className="text-left text-[1.125rem] font-medium leading-6">
               No início de 2021, tive minha primeira oportunidade na área de TI
               como suporte técnico em uma empresa local. Apesar de não ser
@@ -59,7 +155,11 @@ export default function About() {
               oportunidade de entrar no mundo dos códigos.
             </p>
           </section>
-          <section className="h-auto animate-[1s_greeting-vertical_1000ms_backwards] rounded-lg bg-black bg-opacity-60 p-6 text-white md:animate-[1s_greeting_1000ms_backwards] lg:min-h-[459px] 2xl:max-w-[548px]">
+          <section
+            id="card-3"
+            className="card invisible h-auto 
+            rounded-lg bg-black bg-opacity-60 p-6 text-white sm:visible md:animate-[1s_greeting_1000ms_backwards] lg:min-h-[459px] 2xl:max-w-[548px]"
+          >
             <p className="text-left text-[1.125rem] font-medium leading-6">
               Aposto que você está curioso para saber qual empresa me deu a
               oportunidade de crescer na área de tecnologia, não é mesmo? Pois
@@ -84,7 +184,11 @@ export default function About() {
               continuar crescendo e aprendendo em meu novo desafio profissional.
             </p>
           </section>
-          <section className="h-auto animate-[1s_greeting-vertical_1500ms_backwards] rounded-lg bg-black bg-opacity-60 p-6 text-white md:animate-[1s_greeting_1500ms_backwards] lg:min-h-[459px] 2xl:max-w-[34.25rem]">
+          <section
+            id="card-4"
+            className="card invisible h-auto 
+            rounded-lg bg-black bg-opacity-60 p-6 text-white sm:visible md:animate-[1s_greeting_1500ms_backwards] lg:min-h-[459px] 2xl:max-w-[34.25rem]"
+          >
             <p className="text-left text-[1.125rem] font-medium leading-6">
               Agora você deve estar se perguntando: onde estou hoje? Pois bem,
               atualmente trabalho em casa, de forma remota, para uma empresa
@@ -107,7 +211,11 @@ export default function About() {
               tecnologia.
             </p>
           </section>
-          <section className="h-auto animate-[1s_greeting-vertical_2000ms_backwards] rounded-lg bg-black bg-opacity-60 p-6 text-white md:animate-[1s_greeting_2000ms_backwards] lg:min-h-[459px] 2xl:max-w-[34.25rem]">
+          <section
+            id="card-5"
+            className="card invisible h-auto 
+            rounded-lg bg-black bg-opacity-60 p-6 text-white sm:visible md:animate-[1s_greeting_2000ms_backwards] lg:min-h-[459px] 2xl:max-w-[34.25rem]"
+          >
             <p className="text-left text-[1.125rem] font-medium leading-6">
               Comecei minha carreira como eletricista na empresa do meu pai,
               aprendendo sobre segurança e precisão no trabalho, além do
@@ -122,7 +230,11 @@ export default function About() {
               habilidades úteis em qualquer área profissional.
             </p>
           </section>
-          <section className="h-auto animate-[1s_greeting-vertical_2500ms_backwards] rounded-lg bg-black bg-opacity-60 p-6 text-white md:animate-[1s_greeting_2500ms_backwards] lg:min-h-[459px] 2xl:max-w-[34.25rem]">
+          <section
+            id="card-6"
+            className="card invisible h-auto 
+            rounded-lg bg-black bg-opacity-60 p-6 text-white sm:visible md:animate-[1s_greeting_2500ms_backwards] lg:min-h-[459px] 2xl:max-w-[34.25rem]"
+          >
             <p className="text-left text-[1.125rem] font-medium leading-6">
               Quanto ao meu próximo passo, estou animado para aplicar minhas
               habilidades em novos projetos e desafios. Recentemente, tenho me
