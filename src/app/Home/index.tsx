@@ -1,6 +1,6 @@
 import Img from "next/image";
-import memoji from "../../../public/memoji.png";
-import { Header } from "@/components/header";
+import memoji from "../assets/memoji.png";
+import { Header } from "@/app/components/header";
 
 function Home() {
   return (

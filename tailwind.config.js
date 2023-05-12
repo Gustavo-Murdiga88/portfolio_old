@@ -90,6 +90,15 @@ module.exports = {
             transform: "translateX(-100%)",
           },
         },
+
+        loading: {
+          "0%": {
+            transform: "scale(0.8)",
+          },
+          "100%": {
+            transform: "scale(1)",
+          },
+        },
       },
 
       transformOrigin: {
@@ -102,6 +111,7 @@ module.exports = {
         "greeting-vertical": "1s greeting-vertical backwards",
         "good-by-drawer": "600ms good-by-drawer forwards",
         "greeting-drawer": "600ms greeting-drawer backwards",
+        loading: "1000ms loading backwards infinite alternate",
       },
 
       rotate: {

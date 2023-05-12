@@ -1,15 +1,15 @@
 import Img from "next/image";
 import Link from "next/link";
-import { Header } from "@/components/header";
+import { Header } from "@/app/components/header";
 
-import vite from "../../../public/vite.png";
-import docker from "../../../public/docker.png";
-import fastify from "../../../public/fastify.png";
-import react from "../../../public/react.png";
-import remix from "../../../public/remix.png";
-import node from "../../../public/node.png";
-import TS from "../../../public/TS.png";
-import next from "../../../public/next.png";
+import vite from "../assets/vite.png";
+import docker from "../assets/docker.png";
+import fastify from "../assets/fastify.png";
+import react from "../assets/react.png";
+import remix from "../assets/remix.png";
+import node from "../assets/node.png";
+import TS from "../assets/TS.png";
+import next from "../assets/next.png";
 
 export default function Skills() {
   return (
