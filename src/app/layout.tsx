@@ -1,7 +1,9 @@
 import React from "react";
-import "./globals.css";
 import { Roboto } from "next/font/google";
 import { Metadata } from "next";
+
+import "./globals.css";
+import "atropos/css";
 
 const roboto = Roboto({ weight: ["400", "500", "700"], subsets: ["latin"] });
 

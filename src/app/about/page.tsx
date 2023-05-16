@@ -1,319 +1,253 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import Img from "next/image";
 
+import { GithubLogo, LinkedinLogo } from "@phosphor-icons/react";
+import { Loading } from "@/app/components/loader";
 import { Header } from "@/app/components/header";
 import { Link } from "@/app/components/link";
-import { Loading } from "@/app/components/loader";
+
+import { ButtonReturn } from "../components/buttonReturn";
+
+import react from "../assets/timelime.jpg";
 
 interface HandleScrollProps {
-  card: {
-    top: number;
-    card: number;
-  };
   scrollTop: number;
 }
 
 const cards: number[] = [];
+let isMobile = false;
 
 export default function About() {
   const [isLoading, setIsLoading] = useState(true);
 
   const mainDiv = useRef<HTMLDivElement | null>(null);
 
-  function setClassCards(id: string) {
-    const card = document.getElementById(id);
+  function setClassCards(className: string) {
+    console.log("setClassCards", className);
+    const card = document.querySelector(className);
     card?.classList.remove("invisible");
     card?.classList.add("animate-greeting-vertical");
   }
 
-  function handleScroll({ card, scrollTop }: HandleScrollProps) {
-    if (scrollTop > cards[card.card - 1] && card.card === 2) {
-      setClassCards("card-2");
-    }
-
-    if (scrollTop > cards[card.card - 1] && card.card === 3) {
-      setClassCards("card-3");
-    }
-
-    if (scrollTop > cards[card.card - 1] && card.card === 4) {
-      setClassCards("card-4");
-    }
-
-    if (scrollTop > cards[card.card - 1] && card.card === 5) {
-      setClassCards("card-5");
-    }
-
-    if (scrollTop > cards[card.card - 1] && card.card === 6) {
-      setClassCards("card-6");
-    }
-  }
-
-  function handleGetCards() {
-    const cards = document.querySelectorAll(".card");
-
-    const AreCardInvisible = Array.from({
-      length: cards.length,
-    }).map((_, index) => {
-      if (cards[index].classList.contains("invisible")) {
-        const { top } = cards[index].getBoundingClientRect();
-
-        return {
-          top,
-          isTrue: true,
-        };
+  const handleScroll = useCallback(({ scrollTop }: HandleScrollProps) => {
+    let card = null;
+    cards.forEach((item, index) => {
+      if (scrollTop >= item) {
+        setClassCards(`.card-${index + 1}`);
+        card = index;
       }
-      return {
-        isTrue: false,
-        top: 0,
-      };
     });
 
-    const hasExecutedNextLine = AreCardInvisible.some((card) => card.isTrue);
-
-    const card =
-      AreCardInvisible.findIndex((item, index) => item.isTrue && index) + 1;
-
-    return {
-      card: {
-        card,
-        top: AreCardInvisible[card - 1]?.top ?? 0,
-      },
-      hasExecutedNextLine,
-    };
-  }
-
-  function onScroll(e: Event) {
-    const scrollTop = (e.target as any).scrollTop as number;
-    const { hasExecutedNextLine, card } = handleGetCards();
-
-    if (hasExecutedNextLine) {
-      handleScroll({ scrollTop, card });
+    if (card !== null && card >= 0) {
+      delete cards[card];
     }
-  }
+  }, []);
 
-  useEffect(() => {
-    const { matches } = window.matchMedia("(max-width:639px)");
-    const cardsBody = document.querySelectorAll(".card");
-    const display = document.getElementById("display");
+  const onScroll = useCallback(
+    (e: Event) => {
+      const scrollTop = (e.target as any).scrollTop as number;
 
-    if (matches) {
-      cardsBody.forEach((item, index) => {
-        if (!index) {
-          item.classList.remove("invisible");
-        }
-        const { y } = item.getBoundingClientRect();
-
-        cards.push(y - 430);
-      });
-
-      new Promise<boolean>((resolve) => {
-        mainDiv.current?.classList.remove("overflow-hidden");
-        mainDiv.current?.classList.add("overflow-auto");
-        resolve(false);
-      }).then((value) => {
-        setIsLoading(value);
-      });
-
-      document.querySelector("#main")!.addEventListener("scroll", onScroll);
-
-      return () => {
+      if (cards.some((item) => Boolean(item))) {
+        handleScroll({ scrollTop });
+      } else {
         document
           .querySelector("#main")
           ?.removeEventListener("scroll", onScroll);
-      };
-    } else {
-      setIsLoading(false);
-      display?.classList.remove("sm:hidden");
+      }
+    },
+    [handleScroll]
+  );
+
+  useEffect(() => {
+    const display = document.getElementById("display");
+
+    new Promise<boolean>((resolve) => {
+      mainDiv.current?.classList.remove("overflow-hidden");
+      mainDiv.current?.classList.add("overflow-auto");
+      resolve(false);
+    }).then((value) => {
+      setIsLoading(value);
+      display?.classList.remove("hidden");
       display?.classList.add("block");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      const { width } = display!.getBoundingClientRect();
+
+      if (width < 640) {
+        isMobile = true;
+      }
+
+      const cardsBody = document.querySelectorAll(".paragraph");
+
+      cardsBody.forEach((node) => {
+        const { top } = node.getBoundingClientRect();
+        cards.push(top - (isMobile ? 500 : 750));
+      });
+    });
+
+    document.querySelector("#main")!.addEventListener("scroll", onScroll);
+
+    return () => {
+      document.querySelector("#main")?.removeEventListener("scroll", onScroll);
+    };
+  }, [onScroll]);
 
   return (
     <div
       id="main"
       ref={mainDiv}
-      className="scroll not-scoller h-screen overflow-hidden bg-page-about bg-cover bg-scroll bg-left-top bg-no-repeat sm:overflow-auto"
+      className="not-scoller h-screen bg-page-about bg-cover bg-fixed bg-left-top bg-no-repeat sm:overflow-auto"
     >
       {isLoading && <Loading />}
       <Header />
       <section
         id="display"
-        className="mx-auto max-w-max-page px-4 pb-24 sm:hidden lg:px-[96px]"
+        className="mx-auto hidden max-w-max-page px-4 sm:pb-24 lg:px-[96px]"
       >
-        <span className="mb-4 mt-2 block text-center text-2xl font-bold md:mb-8 md:text-3xl lg:text-5xl">
-          Um pouco sobre mim
-        </span>
-
         <div
           className="
-            mx-auto grid min-w-full 
-            max-w-max-page 
-            grid-cols-1 
-            gap-6
-            md:grid-cols-1
-            lg:grid-cols-2
-            xl:grid-cols-2
-            2xl:grid-cols-3"
+          mb-28
+          mt-4
+          rounded-md
+          bg-blue-950
+          p-5
+          sm:mx-auto
+          sm:mb-0
+          sm:max-w-[79.375rem]
+          sm:p-8
+          "
         >
-          <section
-            id="card-1"
-            className="card lg:min-h-auto invisible h-auto animate-[1s_greeting-vertical_backwards] rounded-lg bg-black bg-opacity-60 p-6 text-white sm:visible md:animate-[1s_greeting_backwards] lg:min-h-[459px] 2xl:max-w-[34.25rem]"
-          >
-            <p className="text-left text-[1.125rem] font-medium leading-6">
-              Olá, meu nome é Gustavo, e aos meus 24 anos sou um grande
-              entusiasta da tecnologia e de tudo o que ela pode oferecer em
-              nossas vidas. Minha paixão pela tecnologia começou em 2017, quando
-              tive meu primeiro contato com redes de computadores - acredite ou
-              não, eu gosto muito desse assunto! Depois de criar minhas
-              primeiras redes e dar meus primeiros passos em algumas interfaces
-              de linha de comando (CLI), senti uma grande vontade de me
-              aprofundar mais no assunto. Foi então que comecei uma jornada
-              incrível para aprender lógica de programação e várias linguagens,
-              incluindo C#, Java, Python e alguns frameworks, como o Django do
-              Python. No final, acabei escolhendo me especializar em JavaScript
-              - afinal, quem não escolheria, não é mesmo? Hahaha.
-            </p>
-            <p className="mt-2 text-left text-[1.125rem] font-medium leading-6">
-              No final, acabei escolhendo me especializar em JavaScript -
-              afinal, quem não escolheria, não é mesmo? Hahaha.
-            </p>
-          </section>
-          <section
-            id="card-2"
-            className="card invisible 
-            h-auto
-            rounded-lg
-            bg-black bg-opacity-60 p-6 text-white sm:visible md:animate-[1s_greeting_500ms_backwards] lg:min-h-[459px] 2xl:max-w-[34.25rem]"
-          >
-            <p className="text-left text-[1.125rem] font-medium leading-6">
-              No início de 2021, tive minha primeira oportunidade na área de TI
-              como suporte técnico em uma empresa local. Apesar de não ser
-              exatamente o que eu sonhava, a experiência acabou sendo incrível:
-              a cada telefone atendido e cliente recepcionado, aprendia algo
-              novo e descobria mais sobre o mundo da tecnologia. Mas meu
-              objetivo final sempre foi me tornar um desenvolvedor.
-            </p>
-            <p className="mt-2 text-left text-[1.125rem] font-medium leading-6">
-              Em janeiro de 2022, tive a sorte de conhecer duas pessoas
-              incríveis: Cristan, o dono da empresa, e Leison, o gerente de
-              desenvolvimento. Embora eu fosse um jovem tímido, eles notaram meu
-              desejo de aprender e criar coisas novas. Foi assim que me deram a
-              oportunidade de entrar no mundo dos códigos.
-            </p>
-          </section>
-          <section
-            id="card-3"
-            className="card invisible 
-            h-auto 
-            rounded-lg
-            bg-black bg-opacity-60 p-6 text-white sm:visible md:animate-[1s_greeting_1000ms_backwards] lg:min-h-[459px] 2xl:max-w-[548px]"
-          >
-            <p className="text-left text-[1.125rem] font-medium leading-6">
-              Aposto que você está curioso para saber qual empresa me deu a
-              oportunidade de crescer na área de tecnologia, não é mesmo? Pois
-              bem, essa empresa foi a{" "}
-              <Link target="_blank" href="https://www.sti3.com.br">
-                STi3
-              </Link>
-              . Foi lá que comecei minha jornada como programador front-end,
-              aprendendo muito e trabalhando em projetos que impactam a vida das
-              pessoas no setor varejista e atacadista em todo o Brasil. A{" "}
-              <Link target="_blank" href="https://www.sti3.com.br/">
-                STi3
-              </Link>{" "}
-              é uma empresa especial e sempre serei grato por tudo o que aprendi
-              e pelas pessoas incríveis que conheci lá. No entanto, recentemente
-              decidi buscar novos desafios em outra empresa, onde posso
-              continuar crescendo como profissional e contribuindo para projetos
-              inovadores. Mesmo assim, nunca esquecerei a experiência
-              maravilhosa que tive na STI3 e sempre guardarei com carinho tudo o
-              que aprendi lá. Agradeço a todos da equipe por terem me dado a
-              chance de iniciar minha carreira na área de tecnologia e espero
-              continuar crescendo e aprendendo em meu novo desafio profissional.
-            </p>
-          </section>
-          <section
-            id="card-4"
-            className="card invisible 
-            h-auto 
-            rounded-lg
-            bg-black bg-opacity-60 p-6 text-white sm:visible md:animate-[1s_greeting_1500ms_backwards] lg:min-h-[459px] 2xl:max-w-[34.25rem]"
-          >
-            <p className="text-left text-[1.125rem] font-medium leading-6">
-              Agora você deve estar se perguntando: onde estou hoje? Pois bem,
-              atualmente trabalho em casa, de forma remota, para uma empresa
-              chamada{" "}
-              <Link href="https://www.guaranisistemas.com.br" target="_blank">
-                Guarani{" "}
-              </Link>
-              Sistemas. Lá exerço minhas funções como desenvolvedor front-end há
-              cerca de 10 meses, e posso dizer que tem sido uma experiência
-              incrível. Na Guarani, tenho a oportunidade de criar coisas novas,
-              arquitetar projetos e testar novas features em um sistema que está
-              em desenvolvimento. É um ambiente desafiador e estimulante, onde
-              posso colocar em prática tudo o que aprendi e continuar aprendendo
-              sempre mais.
-            </p>
-            <p className="mt-2 text-left text-[1.125rem] font-medium leading-6">
-              E quem sabe, talvez no futuro eu tenha novas oportunidades e
-              desafios pela frente. O importante é continuar aprendendo e
-              buscando sempre o melhor para minha carreira e para o mundo da
-              tecnologia.
-            </p>
-          </section>
-          <section
-            id="card-5"
-            className="card invisible 
-            h-auto 
-            rounded-lg
-            bg-black bg-opacity-60 p-6 text-white sm:visible md:animate-[1s_greeting_2000ms_backwards] lg:min-h-[459px] 2xl:max-w-[34.25rem]"
-          >
-            <p className="text-left text-[1.125rem] font-medium leading-6">
-              Comecei minha carreira como eletricista na empresa do meu pai,
-              aprendendo sobre segurança e precisão no trabalho, além do
-              trabalho em equipe. Depois trabalhei como almoxarifado em uma
-              empresa de distribuição de energia local, aprendendo sobre
-              logística e controle de estoque, organização e comunicação eficaz.
-              Em seguida, fui instalador de alarmes, aprendendo sobre atenção
-              aos detalhes e resolução de problemas em tempo real. Como montador
-              de painéis, aprendi sobre automação e controle de processos em
-              projetos maiores. Agora, como desenvolvedor front-end, todas essas
-              experiências me ajudaram a chegar onde estou, ensinando-me
-              habilidades úteis em qualquer área profissional.
-            </p>
-          </section>
-          <section
-            id="card-6"
-            className="card invisible 
-            h-auto 
-            rounded-lg
-            bg-black bg-opacity-60 p-6 text-white sm:visible md:animate-[1s_greeting_2500ms_backwards] lg:min-h-[459px] 2xl:max-w-[34.25rem]"
-          >
-            <p className="text-left text-[1.125rem] font-medium leading-6">
-              Quanto ao meu próximo passo, estou animado para aplicar minhas
-              habilidades em novos projetos e desafios. Recentemente, tenho me
-              dedicado a aprimorar minhas habilidades em devops e aprofundar meu
-              conhecimento em arquiteturas modernas no front e back-end. Com
-              essa nova especialização, espero ser capaz de trabalhar em
-              projetos mais complexos e desafiadores, e contribuir para a
-              entrega de soluções de alta qualidade. Se você estiver interessado
-              em saber mais sobre minhas habilidades e experiências, sinta-se à
-              vontade para clicar aqui para acessar meu documento completo.
-            </p>
-            <p className="mt-8 text-left text-[1.125rem] font-medium leading-6">
-              <Link
-                href="files/curr.pdf"
-                target="_blank"
-                download="Currículo Gustavo Murdiga"
-              >
-                Saiba mais
-              </Link>
-            </p>
-          </section>
+          <div className="relative">
+            <Img
+              className=" h-[15.625rem] rounded-md object-cover"
+              src={react}
+              alt="react"
+              height={1080}
+              width={1920}
+              quality={100}
+            />
+
+            <Img
+              className="absolute bottom-0 left-1/2 h-[12.5rem] w-[12.5rem] -translate-x-1/2 translate-y-1/2 rounded-full border-8 border-blue-950 object-cover"
+              src="https://avatars.githubusercontent.com/u/74632138?v=4"
+              alt="react"
+              height={1080}
+              width={1920}
+              quality={100}
+            />
+          </div>
+
+          <div className="mx-auto -mt-1 max-w-[75rem] rounded-b-md  bg-blue-950 pb-10 sm:pb-20">
+            <div className="mx-auto max-w-[46.875rem] pt-28 text-sm font-semibold tracking-wide sm:text-justify sm:text-lg">
+              <div className="mb-4 flex flex-col items-center justify-center gap-2">
+                <span className="text-2xl font-bold">Gustavo Murdiga</span>
+                <span className="text-lg font-semibold text-zinc-100">
+                  Full-Stack developer
+                </span>
+              </div>
+              <div className="mb-8 flex items-center justify-center gap-4 text-zinc-100 sm:mb-10">
+                <Link
+                  target="_blank"
+                  href="https://github.com/Gustavo-Murdiga88"
+                >
+                  <GithubLogo size={32} />
+                </Link>
+                <Link
+                  target="_blank"
+                  href="https://www.linkedin.com/in/gustavo-murdiga-055470178/"
+                >
+                  <LinkedinLogo size={32} />
+                </Link>
+              </div>
+
+              <span className="mb-4 mt-2 block text-xl font-bold text-zinc-100 sm:text-2xl">
+                Bio
+              </span>
+              <p className="mt-4">
+                Olá, meu nome é Gustavo, moro em Jaú, interior de São Paulo. Aos
+                meus 24 anos sou um grande explorador da tecnologia e de todas
+                as coisas que ela pode oferecer. Mas, devo lhe dizer que nem
+                sempre foi desta forma. Em minha jornada profissional, pude
+                conhecer e me desafiar em diversas áreas, sendo o meu primeiro
+                contato com o mundo do trabalho como eletricista na empresa de
+                meu pai. Lá, pude entender melhor sobre a importância do
+                trabalho em equipe, da boa comunicação e da entrega de um
+                trabalho bem feito. Depois, exerci a função de analista técnico
+                de suporte, mantenedor de sistemas eletrônicos, almoxarifado e
+                até agente logístico.
+              </p>
+
+              <span className="mb-4 mt-8 block text-xl font-bold text-zinc-100 sm:text-2xl">
+                Mas de onde surgiu minha paixão pela tecnologia?
+              </span>
+              <p className="card-1 paragraph invisible mt-4">
+                Tudo começou quando tive a iniciativa de exercer alguns
+                trabalhos secundários de redes de computadores – e acredite, eu
+                gosto muito desse assunto -, e após criar minhas primeiras redes
+                e dar os meus primeiros passos em interfaces de linha de comando
+                (CLI), senti uma grande necessidade de me aprofundar nesse
+                assunto. Então, comecei uma jornada incrível para aprender
+                lógica de programação e várias linguagens, incluindo C#, Java,
+                Python e alguns frameworks, como o Django do Python. Por fim,
+                optei em me especializar em JavaScript - afinal, quem não
+                escolheria, não é mesmo?
+              </p>
+              <p className="card-2 paragraph invisible mt-4">
+                Inserido nesse insano mundo de estudo e programação, recebi a
+                proposta de uma empresa local para exercer a função de suporte
+                técnico TI. Embora não fosse o meu principal foco, abracei cada
+                ensinamento e experiência, ciente e confiante de que meu maior
+                sonho estava (literalmente) a uns passos de mim. Foi então que
+                em janeiro do ano de 2022 recebi o voto de confiança dos
+                diretores da empresa para ingressar no mundo dos códigos. E a
+                partir daí, fui exercendo com excelência (modéstia parte) o meu
+                cargo de programador front-end, trabalhando em projetos de alta
+                relevância, entregando sempre o meu melhor e ganhando o meu
+                merecido espaço.
+              </p>
+              <p className="card-3 paragraph invisible mt-4">
+                E como todo esforço é recompensado, em outubro de 2023 recebi a
+                inesperada proposta da atual empresa onde trabalho, Guarani
+                Sistema. Hoje trabalho de forma remota, exercendo a função de
+                desenvolvedor front-end há cerca de 10 meses, e posso garantir
+                que tem sido uma experiência surreal de boa. Tenho a
+                oportunidade de criar novas coisas, arquitetar projetos e testar
+                novas features em um sistema que está em desenvolvimento. É um
+                ambiente desafiador e estimulante, onde posso colocar em prática
+                tudo o que aprendi e continuar aprendendo sempre mais. E quem
+                sabe, num futuro próximo, eu tenha novas oportunidades e
+                desafios pela frente. O importante é continuar aprendendo e
+                buscando sempre o melhor para minha carreira e para o mundo da
+                tecnologia.
+              </p>
+              <span className="card-4 paragraph invisible mb-4 mt-8 block text-2xl font-bold text-zinc-100">
+                Sobre os próximos passos?
+              </span>
+              <p className="card-5 paragraph invisible mt-4">
+                Espero aplicar minhas habilidades em novos projetos. Tenho
+                constantemente me dedicado a aprimorar minhas habilidades em
+                DevOps e arquiteturas modernas no front e back-end. Com essa
+                nova especialização, espero ser capaz de trabalhar em projetos
+                mais complexos e contribuir para a entrega de soluções de alta
+                qualidade. Caso tenha interesse em saber mais sobre minhas
+                habilidades e experiências, sinta-se à vontade para{" "}
+                <Link
+                  target="_blank"
+                  href="/files/curr.pdf"
+                  download="currículo.pdf"
+                >
+                  <span className="px-1 text-blue-500 hover:underline hover:underline-offset-2 sm:px-1">
+                    {" "}
+                    clicar aqui{" "}
+                  </span>
+                </Link>
+                para acessar meu documento completo.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
+      <ButtonReturn />
     </div>
   );
 }

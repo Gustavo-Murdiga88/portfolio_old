@@ -39,23 +39,23 @@ export function Header() {
                 <Link
                   href="/skills"
                   className={`
-            relative
-            cursor-pointer
-            px-4
-            py-2
-            text-center
-            text-lg
-            before:absolute
-            before:bottom-0
-            before:left-0
-            before:h-px
-            before:w-full
-            before:origin-bottom-left
-            before:scale-x-0
-            before:bg-white
-            before:transition
-            before:duration-300
-            hover:before:scale-x-100`}
+                        relative
+                        cursor-pointer
+                        px-4
+                        py-2
+                        text-center
+                        text-lg
+                        before:absolute
+                        before:bottom-0
+                        before:left-0
+                        before:h-px
+                        before:w-full
+                        before:origin-bottom-left
+                        before:scale-x-0
+                        before:bg-white
+                        before:transition
+                        before:duration-300
+                        hover:before:scale-x-100`}
                 >
                   Habilidades
                 </Link>
@@ -64,25 +64,50 @@ export function Header() {
                 <Link
                   href="/about"
                   className={`
-             relative
-             cursor-pointer
-             px-4
-             py-2
-             text-center
-             text-lg
-             before:absolute 
-             before:bottom-0
-             before:left-0
-             before:h-px
-             before:w-full
-             before:origin-bottom-left
-             before:scale-x-0
-             before:bg-white
-             before:transition
-             before:duration-300
-             hover:before:scale-x-100`}
+                        relative
+                        cursor-pointer
+                        px-4
+                        py-2
+                        text-center
+                        text-lg
+                        before:absolute 
+                        before:bottom-0
+                        before:left-0
+                        before:h-px
+                        before:w-full
+                        before:origin-bottom-left
+                        before:scale-x-0
+                        before:bg-white
+                        before:transition
+                        before:duration-300
+                        hover:before:scale-x-100`}
                 >
-                  Sobre mim
+                  Perfil
+                </Link>
+              </li>
+              <li className="inline">
+                <Link
+                  href="/projects"
+                  className={`
+                        relative
+                        cursor-pointer
+                        px-4
+                        py-2
+                        text-center
+                        text-lg
+                        before:absolute 
+                        before:bottom-0
+                        before:left-0
+                        before:h-px
+                        before:w-full
+                        before:origin-bottom-left
+                        before:scale-x-0
+                        before:bg-white
+                        before:transition
+                        before:duration-300
+                        hover:before:scale-x-100`}
+                >
+                  Projetos
                 </Link>
               </li>
             </ul>
@@ -109,22 +134,22 @@ export function Header() {
             <Link
               href="/"
               className={`relative
-              cursor-pointer
-              px-4
-              py-2
-              text-center
-              text-lg
-              before:absolute 
-              before:bottom-0
-              before:left-0
-              before:h-px
-              before:w-full
-              before:origin-bottom-left
-              before:scale-x-0
-              before:bg-white
-              before:transition
-              before:duration-300
-              hover:before:scale-x-100`}
+                          cursor-pointer
+                          px-4
+                          py-2
+                          text-center
+                          text-lg
+                          before:absolute 
+                          before:bottom-0
+                          before:left-0
+                          before:h-px
+                          before:w-full
+                          before:origin-bottom-left
+                          before:scale-x-0
+                          before:bg-white
+                          before:transition
+                          before:duration-300
+                          hover:before:scale-x-100`}
             >
               Home
             </Link>
@@ -133,23 +158,23 @@ export function Header() {
             <Link
               href="/skills"
               className={`
-              relative
-              cursor-pointer
-              px-4
-              py-2
-              text-center
-              text-lg
-              before:absolute
-              before:bottom-0
-              before:left-0
-              before:h-px
-              before:w-full
-              before:origin-bottom-left
-              before:scale-x-0
-              before:bg-white
-              before:transition
-              before:duration-300
-              hover:before:scale-x-100`}
+                        relative
+                        cursor-pointer
+                        px-4
+                        py-2
+                        text-center
+                        text-lg
+                        before:absolute
+                        before:bottom-0
+                        before:left-0
+                        before:h-px
+                        before:w-full
+                        before:origin-bottom-left
+                        before:scale-x-0
+                        before:bg-white
+                        before:transition
+                        before:duration-300
+                        hover:before:scale-x-100`}
             >
               Habilidades
             </Link>
@@ -158,25 +183,50 @@ export function Header() {
             <Link
               href="/about"
               className={`
-               relative
-               cursor-pointer
-               px-4
-               py-2
-               text-center
-               text-lg
-               before:absolute 
-               before:bottom-0
-               before:left-0
-               before:h-px
-               before:w-full
-               before:origin-bottom-left
-               before:scale-x-0
-               before:bg-white
-               before:transition
-               before:duration-300
-               hover:before:scale-x-100`}
+                        relative
+                        cursor-pointer
+                        px-4
+                        py-2
+                        text-center
+                        text-lg
+                        before:absolute 
+                        before:bottom-0
+                        before:left-0
+                        before:h-px
+                        before:w-full
+                        before:origin-bottom-left
+                        before:scale-x-0
+                        before:bg-white
+                        before:transition
+                        before:duration-300
+                        hover:before:scale-x-100`}
             >
-              Sobre mim
+              Perfil
+            </Link>
+          </li>
+          <li className="inline">
+            <Link
+              href="/projects"
+              className={`
+                        relative
+                        cursor-pointer
+                        px-4
+                        py-2
+                        text-center
+                        text-lg
+                        before:absolute 
+                        before:bottom-0
+                        before:left-0
+                        before:h-px
+                        before:w-full
+                        before:origin-bottom-left
+                        before:scale-x-0
+                        before:bg-white
+                        before:transition
+                        before:duration-300
+                        hover:before:scale-x-100`}
+            >
+              Projetos
             </Link>
           </li>
           <li className="absolute right-4 top-0">

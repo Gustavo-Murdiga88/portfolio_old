@@ -10,12 +10,13 @@ import remix from "../assets/remix.png";
 import node from "../assets/node.png";
 import TS from "../assets/TS.png";
 import next from "../assets/next.png";
+import { ButtonReturn } from "../components/buttonReturn";
 
 export default function Skills() {
   return (
     <div className="not-scoller h-screen w-full overflow-auto bg-page-skills bg-cover bg-left-top bg-no-repeat">
       <Header />
-      <div className="mb-24 w-full max-w-[95rem] sm:mx-auto">
+      <div className="w-full max-w-[95rem] animate-greeting sm:mx-auto">
         <section className="flex flex-col gap-10 px-8 md:mt-10 md:gap-24 2xl:flex-row">
           <aside className="md:pt-6">
             <h2 className="mb-5 mt-5 text-lg font-semibold md:mb-10">
@@ -33,9 +34,9 @@ export default function Skills() {
               <strong className="font-extrabold">STAGE FULL CYCLE.</strong>
             </p>
           </aside>
-          <div className="mb-8 flex flex-1 flex-row flex-wrap items-center justify-center gap-6">
+          <div className="skills mb-8 flex flex-1 flex-row flex-wrap items-center justify-center gap-6">
             <Link
-              className="w-[140px] object-cover md:w-auto"
+              className="grayscale-1 w-[140px] object-cover md:w-auto"
               target="_blank"
               prefetch
               title="Next"
@@ -44,7 +45,7 @@ export default function Skills() {
               <Img src={next} width={176} height={176} alt="next" />
             </Link>
             <Link
-              className="w-[140px] object-cover md:w-auto"
+              className="w-[140px] object-cover  md:w-auto"
               target="_blank"
               prefetch
               title="Fastify"
@@ -121,6 +122,7 @@ export default function Skills() {
           </div>
         </section>
       </div>
+      <ButtonReturn />
     </div>
   );
 }

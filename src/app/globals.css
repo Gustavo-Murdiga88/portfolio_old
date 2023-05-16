@@ -16,8 +16,44 @@ html,
 body {
   font-family: "inter, sans-serif";
   color: var(--default);
+  scroll-behavior: smooth;
+
+  --webkit-font-smoothing: antialiased;
+}
+
+*:focus {
+  outline: 0px;
+
+  border-radius: 3px;
+  box-shadow: 0 0 0 2px #3b82f6;
 }
 
 .not-scoller::-webkit-scrollbar {
   width: 0;
+  position: relative;
+}
+
+.skills:hover > a > img {
+  transition: filter 0.5s ease-in, transform 0.5s ease-in;
+  filter: grayscale(1);
+}
+
+.skills > a > img {
+  transition: filter 0.5s ease-in, transform 0.5s ease-in;
+  filter: grayscale(0);
+  transform: scale(1);
+}
+.skills:hover > a > img:hover {
+  transition: filter 0.5s ease-in, transform 0.5s ease-in;
+  filter: grayscale(0);
+  transform: scale(1.15);
+}
+
+.timeline {
+  background: rgb(29, 222, 253);
+  background: linear-gradient(
+    221deg,
+    rgba(29, 222, 253, 1) 16%,
+    rgba(69, 82, 252, 1) 68%
+  );
 }

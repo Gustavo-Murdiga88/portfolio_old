@@ -6,8 +6,17 @@ module.exports = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+
   theme: {
     extend: {
+      backgroundColor: {
+        "blue-1000": "#021449",
+      },
+
+      borderColor: {
+        "blue-1000": "#021449",
+      },
+
       backgroundImage: {
         "page-main": "url('/main.png')",
         "page-skills": "url('/skills.png')",
@@ -118,8 +127,15 @@ module.exports = {
         custom: "30deg",
       },
 
+      spacing: {
+        custom: "calc((100% - 1550px) / 2)",
+      },
+
       aspectRatio: {
         custom: "9 / 16",
+      },
+      minHeight: {
+        "max-page": "calc(100% - 7.3rem)",
       },
     },
   },
