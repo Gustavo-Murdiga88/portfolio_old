@@ -1,11 +1,13 @@
 "use client";
 
+import Img from "next/image";
+
 import { GitBranch, GitCommit } from "@phosphor-icons/react";
 import { useState } from "react";
-import { Pagination } from "./pagination";
-import { fetchManyRepositories } from "../page";
+import { fetchManyRepositories } from "../fetch";
 import { Loading } from "@/app/components/loader";
-import Img from "next/image";
+
+import { Pagination } from "./pagination";
 
 import react from "../../assets/wallpaperReact.png";
 import node from "../../assets/wallpaperNodeJs.png";
