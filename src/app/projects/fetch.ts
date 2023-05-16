@@ -11,7 +11,10 @@ interface ProjectsProps {
   description: string | null;
 }
 
-export async function fetchManyRepositories({ page, per_page }: FetchProps) {
+export async function fetchManyRepositories({
+  page,
+  per_page = 9,
+}: FetchProps) {
   const url = new URL("https://api.github.com/users/gustavo-murdiga88/repos");
   url.searchParams.set("sort", "pushed");
   url.searchParams.set("page", String(page));

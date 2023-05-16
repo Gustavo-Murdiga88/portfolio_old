@@ -16,40 +16,38 @@ interface HandleScrollProps {
   scrollTop: number;
 }
 
-const cards: number[] = [];
-let isMobile = false;
-
 export default function About() {
   const [isLoading, setIsLoading] = useState(true);
+  const cards = useRef<Array<number>>([]);
+  const isMobile = useRef<boolean>(false);
 
   const mainDiv = useRef<HTMLDivElement | null>(null);
 
   function setClassCards(className: string) {
-    console.log("setClassCards", className);
     const card = document.querySelector(className);
     card?.classList.remove("invisible");
     card?.classList.add("animate-greeting-vertical");
   }
 
   const handleScroll = useCallback(({ scrollTop }: HandleScrollProps) => {
-    let card = null;
-    cards.forEach((item, index) => {
+    let card: number = 0;
+    cards.current.forEach((item, index) => {
       if (scrollTop >= item) {
         setClassCards(`.card-${index + 1}`);
-        card = index;
+        card = item;
       }
     });
 
     if (card !== null && card >= 0) {
-      delete cards[card];
+      cards.current = cards.current.filter((item) => item);
     }
   }, []);
 
   const onScroll = useCallback(
     (e: Event) => {
-      const scrollTop = (e.target as any).scrollTop as number;
-
-      if (cards.some((item) => Boolean(item))) {
+      const scrollTop =
+        ((e.target as any).scrollTop as number) + (isMobile.current ? 0 : 200);
+      if (cards.current.some((item) => Boolean(item))) {
         handleScroll({ scrollTop });
       } else {
         document
@@ -74,14 +72,14 @@ export default function About() {
       const { width } = display!.getBoundingClientRect();
 
       if (width < 640) {
-        isMobile = true;
+        isMobile.current = true;
       }
 
       const cardsBody = document.querySelectorAll(".paragraph");
 
       cardsBody.forEach((node) => {
         const { top } = node.getBoundingClientRect();
-        cards.push(top - (isMobile ? 500 : 750));
+        cards.current.push(top - 500);
       });
     });
 

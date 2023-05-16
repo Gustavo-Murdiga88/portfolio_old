@@ -31,7 +31,6 @@ interface RepositoriesProps {
 interface FetchRepositoriesProps {
   per_page?: number;
   page?: number;
-  resetLastPage?: boolean;
 }
 
 export function Repositories({ repositories }: RepositoriesProps) {
@@ -39,7 +38,6 @@ export function Repositories({ repositories }: RepositoriesProps) {
     useState<RepositoriesProps["repositories"]>(repositories);
 
   const [isLoading, setIsLoading] = useState(false);
-
   const [lastPage, setLastPage] = useState(0);
 
   async function fetchRepositories({ page, per_page }: FetchRepositoriesProps) {
@@ -50,7 +48,7 @@ export function Repositories({ repositories }: RepositoriesProps) {
       setIsLoading(false);
     }, 0);
 
-    if (repos.length < 12 && page && page > 0) {
+    if (repos.length < 9 && page && page > 0) {
       setLastPage(page);
     }
 
@@ -74,11 +72,15 @@ export function Repositories({ repositories }: RepositoriesProps) {
               return eslint;
             }
 
-            if (img.includes("api")) {
+            if (img.includes("api") || img.includes("helpers")) {
               return node;
             }
 
-            if (img.includes("native") || img.includes("rentx")) {
+            if (
+              img.includes("native") ||
+              img.includes("rentx") ||
+              img.includes("-rn")
+            ) {
               return reactNative;
             }
 

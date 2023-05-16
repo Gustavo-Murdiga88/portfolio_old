@@ -12,7 +12,7 @@ interface FetchProps {
   page?: number;
 }
 type PaginationProps = {
-  fetchNewRepositories: (data: FetchProps) => void;
+  fetchNewRepositories: (data: FetchProps) => Promise<void>;
   lastPage: number;
 };
 
